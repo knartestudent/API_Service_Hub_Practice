@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>University API</title>
+  <style>
+    body { font-family: Arial; background: #f1f8e9; text-align: center; padding: 40px; }
+    input, button { padding: 10px; margin: 10px; border-radius: 5px; border: 1px solid #ccc; }
+    button { background: #4caf50; color: white; border: none; cursor: pointer; }
+    button:hover { background: #388e3c; }
+    ul { list-style: none; padding: 0; text-align: left; max-width: 500px; margin: 20px auto; }
+  </style>
+</head>
+<body>
+  <h1>🎓 UNIVERSITY API</h1>
+  <p>Enter a country to list universities.</p>
+
+  <input id="country" placeholder="e.g. Philippines">
+  <button onclick="getUniversities()">Search</button>
+
+  <ul id="output"></ul>
+
+  <script>
+    async function getUniversities() {
+      const country = document.getElementById('country').value;
+      const url = `http://universities.hipolabs.com/search?country=${country}`;
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        document.getElementById('output').innerHTML = data.slice(0, 10).map(u => 
+          `<li><b>${u.name}</b> — <a href="${u.web_pages[0]}" target="_blank">${u.web_pages[0]}</a></li>`
+        ).join('');
+      } catch {
+        document.getElementById('output').textContent = 'Error fetching data.';
+      }
+    }
+  </script>
+</body>
+</html>

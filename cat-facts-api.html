@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cat Facts API</title>
+  <style>
+    body { font-family: Arial; background: #fff8e1; text-align: center; padding: 40px; }
+    button { padding: 10px 20px; background: #ff9800; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #f57c00; }
+    .fact { margin-top: 30px; font-size: 20px; font-style: italic; }
+  </style>
+</head>
+<body>
+  <h1>🐱 CAT FACTS API</h1>
+  <p>Click to get a random cat fact!</p>
+  <button onclick="getCatFact()">Show Cat Fact</button>
+  <div id="output" class="fact"></div>
+
+  <script>
+    async function getCatFact() {
+      const url = 'https://catfact.ninja/fact';
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        document.getElementById('output').textContent = `"${data.fact}"`;
+      } catch {
+        document.getElementById('output').textContent = 'Error fetching cat fact.';
+      }
+    }
+  </script>
+</body>
+</html>

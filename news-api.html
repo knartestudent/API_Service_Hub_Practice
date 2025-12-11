@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>News API</title>
+  <style>
+    body { font-family: Arial; background: #f0f0f0; text-align: center; padding: 40px; }
+    button { padding: 10px 20px; background: #444; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    button:hover { background: #666; }
+    .news { margin-top: 20px; max-width: 600px; margin: 20px auto; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>📰 NEWS API</h1>
+  <p>Click below to fetch top headlines.</p>
+  <button onclick="getNews()">Fetch News</button>
+
+  <div id="output" class="news"></div>
+
+  <script>
+    async function getNews() {
+      const apiKey = 'YOUR_API_KEY_HERE'; // Replace with your NewsAPI.org key
+      const url = `https://newsapi.org/v2/top-headlines?country=us&apiKey=${apiKey}`;
+
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        const articles = data.articles.slice(0, 5);
+        document.getElementById('output').innerHTML = articles.map(a => `
+          <div style="margin-bottom: 20px;">
+            <h3>${a.title}</h3>
+            <p>${a.description || ''}</p>
+            <a href="${a.url}" target="_blank">Read more</a>
+          </div>
+        `).join('');
+      } catch (err) {
+        document.getElementById('output').textContent = 'Error fetching news.';
+      }
+    }
+  </script>
+</body>
+</html>
